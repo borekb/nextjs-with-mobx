@@ -1,9 +1,12 @@
 import Link from 'next/link';
+import DisplayContent from '../../components/post/DisplayContent';
+import UpdateContent from '../../components/post/UpdateContent';
 
-const Post = ({ post, id }) => (
+const Post = ({ id /* TODO remove this; we keep this for navigation for now */ }) => (
   <>
-    <h1>Post</h1>
-    <p>{post}</p>
+    <h1>Post [TODO get ID from store]</h1>
+    <DisplayContent />
+    <UpdateContent />
     <div>
       <Link href='/'>
         <a>Home</a>
@@ -18,7 +21,6 @@ const Post = ({ post, id }) => (
 Post.getInitialProps = async ({ mobxStore: { postStore }, query }) => {
   await postStore.fetch(query.id);
   return {
-    post: postStore.post,
     id: query.id,
   };
 };
