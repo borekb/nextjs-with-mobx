@@ -1,9 +1,8 @@
 import { useStaticRendering } from 'mobx-react';
-
+import { isServer } from '../utils/isServer';
 import PostStore from './PostStore';
 import UIStore from './UIStore';
 
-const isServer = typeof window === 'undefined';
 useStaticRendering(isServer);
 
 let store = null;

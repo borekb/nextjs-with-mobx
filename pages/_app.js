@@ -1,6 +1,7 @@
 import React from 'react';
 import App, { Container } from 'next/app';
 import { Provider } from 'mobx-react';
+import { isServer } from '../utils/isServer';
 
 import initializeStore from '../stores/stores';
 
@@ -17,7 +18,6 @@ class CustomApp extends App {
 
   constructor(props) {
     super(props);
-    const isServer = typeof window === 'undefined';
     this.mobxStore = isServer ? props.initialMobxState : initializeStore(props.initialMobxState);
   }
 
