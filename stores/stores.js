@@ -1,25 +1,32 @@
-import { useStaticRendering } from 'mobx-react';
 import { isServer } from '../utils/isServer';
 import PostStore from './PostStore';
 import UIStore from './UIStore';
 
-useStaticRendering(isServer);
+let clientSideStores;
 
-let store = null;
-
-export default function initializeStore(initialData = { postStore: {} }) {
+export function getStores(initialData = { postStoreInitialData: {} }) {
   if (isServer) {
     return {
-      postStore: new PostStore(initialData.postStore),
+      postStore: new PostStore(initialData.postStoreInitialData),
       uiStore: new UIStore(),
     };
   }
-  if (store === null) {
-    store = {
-      postStore: new PostStore(initialData.postStore),
+  if (!clientSideStores) {
+    clientSideStores = {
+      postStore: new PostStore(initialData.postStoreInitialData),
       uiStore: new UIStore(),
     };
   }
 
-  return store;
+  return clientSideStores;
+}
+
+const StoreContext = React.createContext();
+
+export function StoreProvider(props) {
+  return <StoreContext.Provider value={props.value}>{props.children}</StoreContext.Provider>;
+}
+
+export function useMobxStores() {
+  return React.useContext(StoreContext);
 }
