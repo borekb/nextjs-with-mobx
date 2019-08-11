@@ -1,3 +1,9 @@
-const DisplayContent = () => <p>TODO get content from store</p>;
+import { useMobxStores } from '../../stores/stores';
+import { observer } from 'mobx-react';
 
-export default DisplayContent;
+const DisplayContent = () => {
+  const { postStore } = useMobxStores();
+  return <p>{postStore.post}</p>;
+};
+
+export default observer(DisplayContent);
